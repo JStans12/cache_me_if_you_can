@@ -1,6 +1,7 @@
 class BoxesController < ApplicationController
   def index
-    render json: Box.all,
+    @boxes = Rails.cache.fetch('boxes', expires_in: 5.minutes) {Box.all}
+    render json: @boxes,
     each_serializer: BoxesSerializer
   end
 end
